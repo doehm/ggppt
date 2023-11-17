@@ -73,11 +73,7 @@ GeomParallelogram <- ggplot2::ggproto(
 
 #' Polygon parallelogram
 #'
-#' Creates a 'waffle' style chart with the aesthetic of a brick wall. Usage is
-#' similar to `geom_col` where you supply counts as the height of the bar. Each
-#' whole brick represents 1 unit. Two half bricks equal one whole brick. Where
-#' the count exceeds the number of brick layers, the number of bricks is scaled
-#' to retain the brick wall aesthetic.
+#' Creates a parllelogram like in PowerPoint
 #'
 #' @param mapping Set of aesthetic mappings created by [aes()]. If specified and
 #'   `inherit.aes = TRUE` (the default), it is combined with the default mapping
@@ -115,6 +111,10 @@ GeomParallelogram <- ggplot2::ggproto(
 #'   that define both data and aesthetics and shouldn't inherit behaviour from
 #'   the default plot specification, e.g. [borders()].
 #' @param na.rm If `FALSE` removes `NA`s from the data.
+#' @param angle Angle to rotate each callout box.
+#' @param rotate_at The point of rotation, either 'head' or 'center'.
+#' @param theta Angle of the slant.
+#' @param ... dots
 #'
 #' @return Grob
 #' @export
@@ -146,3 +146,4 @@ geom_parallelogram <- function(mapping = NULL, data = NULL, stat = "parallelogra
   )
 
 }
+

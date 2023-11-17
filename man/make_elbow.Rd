@@ -6,6 +6,15 @@
 \usage{
 make_elbow(x, y, grp, pos = 0.5)
 }
+\arguments{
+\item{x}{x}
+
+\item{y}{y}
+
+\item{grp}{group}
+
+\item{pos}{pos}
+}
 \description{
 make elbow
 }

@@ -1,7 +1,22 @@
+utils::globalVariables(c("x", "y", "theta"))
+
 # helpers
-make_arrow <- function(xmin, xmax, ymin, ymax, edge_length = 0.2, body_length = 0.66, angle = 0, rotate_at = "center") {
+
+#' Makes arrow
+#'
+#' @param xmin xmin
+#' @param xmax xmax
+#' @param ymin ymin
+#' @param ymax ymax
+#' @param edge_length Edge length
+#' @param head_length Head length
+#' @param angle and
+#' @param rotate_at Rotate at
+make_arrow <- function(xmin, xmax, ymin, ymax, edge_length = 0.2, head_length = 0.2, angle = 0, rotate_at = "head") {
 
   if(length(angle) != length(xmin)) angle <- rep(angle[1], length(xmin))
+
+  head_length <- head_length*max(xmax-xmin)
 
   map_dfr(1:length(xmin), function(k) {
 
@@ -15,13 +30,13 @@ make_arrow <- function(xmin, xmax, ymin, ymax, edge_length = 0.2, body_length = 
     )
 
     tibble(
-      x = c(xmin[k], xmin[k], xmin[k]+dx*body_length,
-            xmin[k]+dx*body_length, xmax[k], xmin[k]+dx*body_length,
-            xmin[k]+dx*body_length, xmin[k])-x0,
-      y = c(ymin[k]+dy*edge_length, ymax[k]-dy*edge_length,
-            ymax[k]-dy*edge_length, ymax[k], ymin[k]+dy/2, ymin[k],
-            ymin[k]+dy*edge_length, ymin[k]+dy*edge_length)-y0
-      ) |>
+      x = c(xmin[k], xmin[k], xmin[k]+dx-head_length,
+            xmin[k]+dx-head_length, xmax[k], xmin[k]+dx-head_length,
+            xmin[k]+dx-head_length, xmin[k])-x0,
+      y = c(ymin[k]+edge_length, ymax[k]-edge_length,
+            ymax[k]-edge_length, ymax[k], ymin[k]+dy/2, ymin[k],
+            ymin[k]+edge_length, ymin[k]+edge_length)-y0
+    ) |>
     rotate(angle[k]*pi/180) |>
     mutate(
       x = x+x0,
@@ -34,6 +49,9 @@ make_arrow <- function(xmin, xmax, ymin, ymax, edge_length = 0.2, body_length = 
 }
 
 #' Rotations
+#'
+#' @param mat Matrix
+#' @param angle angle
 rotate <- function(mat, angle) {
   mat <- as.matrix(mat)
   cos_angle <- cos(angle)
@@ -45,6 +63,13 @@ rotate <- function(mat, angle) {
 }
 
 #' Make the chevron
+#'
+#' @param xmin xmin
+#' @param xmax xmax
+#' @param ymin ymin
+#' @param ymax ymax
+#' @param angle angle
+#' @param rotate_at Rotate at
 make_chevron <- function(xmin, xmax, ymin, ymax, angle = 0, rotate_at = "center") {
 
   if(length(angle) != length(xmin)) angle <- rep(angle[1], length(xmin))
@@ -76,6 +101,15 @@ make_chevron <- function(xmin, xmax, ymin, ymax, angle = 0, rotate_at = "center"
 }
 
 #' make callout
+#'
+#' @param xmin xmin
+#' @param xmax xmax
+#' @param ymin ymin
+#' @param ymax ymax
+#' @param pos pos
+#' @param length Length
+#' @param angle angle
+#' @param rotate_at rotate at
 make_callout <- function(xmin, xmax, ymin, ymax, pos = 0.3, length = 0.2, angle = 0, rotate_at = "center") {
 
   if(length(angle) != length(xmin)) angle <- rep(angle[1], length(xmin))
@@ -107,6 +141,15 @@ make_callout <- function(xmin, xmax, ymin, ymax, pos = 0.3, length = 0.2, angle 
 }
 
 #' make triangle
+#'
+#' @param xmin xmin
+#' @param xmax xmax
+#' @param ymin ymin
+#' @param ymax ymax
+#' @param pos pos
+#' @param length length
+#' @param angle angle
+#' @param rotate_at rotate at
 make_triangle <- function(xmin, xmax, ymin, ymax, pos = 0.3, length = 0.2, angle = 0, rotate_at = "center") {
 
   if(length(angle) != length(xmin)) angle <- rep(angle[1], length(xmin))
@@ -140,6 +183,13 @@ make_triangle <- function(xmin, xmax, ymin, ymax, pos = 0.3, length = 0.2, angle
 
 
 #' make pentagon
+#'
+#' @param xmin xmin
+#' @param xmax xmax
+#' @param ymin ymin
+#' @param ymax ymax
+#' @param angle angle
+#' @param rotate_at rotate at
 make_pentagon <- function(xmin, xmax, ymin, ymax, angle = 0, rotate_at = "center") {
 
   if(length(angle) != length(xmin)) angle <- rep(angle[1], length(xmin))
@@ -171,7 +221,15 @@ make_pentagon <- function(xmin, xmax, ymin, ymax, angle = 0, rotate_at = "center
 }
 
 #' make parallelogram
-make_parallelogram <- function(xmin, xmax, ymin, ymax, angle = 0, theta = 30, rotate_at = "center") {
+#'
+#' @param xmin xmin
+#' @param xmax xmax
+#' @param ymin ymin
+#' @param ymax ymax
+#' @param angle angle
+#' @param theta theta
+#' @param rotate_at rotate at
+make_parallelogram <- function(xmin, xmax, ymin, ymax, angle = 0, theta = 15, rotate_at = "center") {
 
   if(length(angle) != length(xmin)) angle <- rep(angle[1], length(xmin))
 
@@ -185,7 +243,8 @@ make_parallelogram <- function(xmin, xmax, ymin, ymax, angle = 0, theta = 30, ro
       "head" = xmax[k],
       "center" = xmin[k]+dx/2
     )
-    beta <- tan(theta*pi/180)*dy
+    # beta <- tan(theta*pi/180)*dy
+    beta <- cos((90-theta)*pi/180)*dy
 
     tibble(
       x = c(xmin[k], xmin[k]+beta, xmax[k], xmax[k]-beta)-x0,
@@ -204,6 +263,13 @@ make_parallelogram <- function(xmin, xmax, ymin, ymax, angle = 0, theta = 30, ro
 
 
 #' make diamond
+#'
+#' @param xmin xmin
+#' @param xmax xmax
+#' @param ymin ymin
+#' @param ymax ymax
+#' @param angle angle
+#' @param rotate_at rotate at
 make_diamond <- function(xmin, xmax, ymin, ymax, angle = 0, rotate_at = "center") {
 
   if(length(angle) != length(xmin)) angle <- rep(angle[1], length(xmin))
@@ -235,6 +301,11 @@ make_diamond <- function(xmin, xmax, ymin, ymax, angle = 0, rotate_at = "center"
 }
 
 #' make elbow
+#'
+#' @param x x
+#' @param y y
+#' @param grp group
+#' @param pos pos
 make_elbow <- function(x, y, grp, pos = 0.5) {
 
   groups <- unique(grp)
@@ -260,6 +331,14 @@ make_elbow <- function(x, y, grp, pos = 0.5) {
 }
 
 #' make cross
+#'
+#' @param xmin xmin
+#' @param xmax xmax
+#' @param ymin ymin
+#' @param ymax ymax
+#' @param wd wd
+#' @param angle angle
+#' @param rotate_at rotate at
 make_cross <- function(xmin, xmax, ymin, ymax, wd = 0.3, angle = 0, rotate_at = "center") {
 
   if(length(angle) != length(xmin)) angle <- rep(angle[1], length(xmin))

@@ -7,7 +7,7 @@ stat_arrow <- function(mapping = NULL, data = NULL,
                        geom = "polygon", position = "identity",
                        na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, edge_length = 0.2,
-                       body_length = 0.66, angle = 0, ...) {
+                       head_length = 0.2, angle = 0, ...) {
   layer(
     stat = StatArrow,
     data = data,
@@ -18,7 +18,7 @@ stat_arrow <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = list(
       edge_length = edge_length,
-      body_length = body_length,
+      head_length = head_length,
       angle = angle,
       na.rm = na.rm,
       ...
@@ -35,12 +35,12 @@ StatArrow <- ggplot2::ggproto(
     return(params)
   },
   compute_panel = function(data, scales, edge_length = params$edge_length,
-                           body_length = params$body_length, angle = params$angle,
+                           head_length = params$head_length, angle = params$angle,
                            rotate_at = params$rotate_at) {
 
     dat_out <- make_arrow(
         data$xmin, data$xmax, data$ymin, data$ymax,
-        edge_length = edge_length, body_length = body_length,
+        edge_length = edge_length, head_length = head_length,
         angle = angle, rotate_at = rotate_at
       ) |>
       left_join(
@@ -68,18 +68,14 @@ GeomArrow <- ggplot2::ggproto(
     alpha = NA
   ),
   edge_length = 0.2,
-  body_length = 0.66,
+  head_length = 0.2,
   angle = 0,
   rotate_at = "head"
 )
 
 #' Polygon arrow
 #'
-#' Creates a 'waffle' style chart with the aesthetic of a brick wall. Usage is
-#' similar to `geom_col` where you supply counts as the height of the bar. Each
-#' whole brick represents 1 unit. Two half bricks equal one whole brick. Where
-#' the count exceeds the number of brick layers, the number of bricks is scaled
-#' to retain the brick wall aesthetic.
+#' Creates a polygon arrow. Default is facing right.
 #'
 #' @param mapping Set of aesthetic mappings created by [aes()]. If specified and
 #'   `inherit.aes = TRUE` (the default), it is combined with the default mapping
@@ -117,6 +113,15 @@ GeomArrow <- ggplot2::ggproto(
 #'   that define both data and aesthetics and shouldn't inherit behaviour from
 #'   the default plot specification, e.g. [borders()].
 #' @param na.rm If `FALSE` removes `NA`s from the data.
+#' @param angle Angle to rotate each pentagon.
+#' @param rotate_at The point of rotation, either 'head' or 'center'.
+#' @param head_length The length of the head of the arrow as a proportion of the
+#' longest arrow e.g. if `head_length = 0.2` and the longest arrow is 10 units long
+#' the head of the arrow will be 2 units for all arrows. This is to keep the arrow
+#' head consistent.
+#' @param edge_length The arrow edge length as a proportion of width. Larger values
+#' means skinnier body. Values (0, 0.5).
+#' @param ... Dots
 #'
 #' @import dplyr
 #' @import ggplot2
@@ -133,7 +138,7 @@ GeomArrow <- ggplot2::ggproto(
 geom_arrow <- function(mapping = NULL, data = NULL, stat = "arrow",
                        position = "identity", na.rm = FALSE,
                        show.legend = NA, inherit.aes = TRUE,
-                       edge_length = 0.2, body_length = 0.66,
+                       edge_length = 0.2, head_length = 0.2,
                        angle = 0, rotate_at = "head", ...) {
 
   layer(
@@ -146,7 +151,7 @@ geom_arrow <- function(mapping = NULL, data = NULL, stat = "arrow",
     inherit.aes = inherit.aes,
     params = list(
       edge_length = edge_length,
-      body_length = body_length,
+      head_length = head_length,
       angle = angle,
       rotate_at = rotate_at,
       na.rm = na.rm,
@@ -161,7 +166,7 @@ geom_arrow <- function(mapping = NULL, data = NULL, stat = "arrow",
 geom_arrow_right <- function(mapping = NULL, data = NULL, stat = "arrow",
                        position = "identity", na.rm = FALSE,
                        show.legend = NA, inherit.aes = TRUE,
-                       edge_length = 0.2, body_length = 0.66,
+                       edge_length = 0.2, head_length = 0.2,
                        angle = 0, rotate_at = "head", ...) {
 
   layer(
@@ -174,7 +179,7 @@ geom_arrow_right <- function(mapping = NULL, data = NULL, stat = "arrow",
     inherit.aes = inherit.aes,
     params = list(
       edge_length = edge_length,
-      body_length = body_length,
+      head_length = head_length,
       angle = angle,
       rotate_at = rotate_at,
       na.rm = na.rm,
@@ -191,8 +196,8 @@ geom_arrow_right <- function(mapping = NULL, data = NULL, stat = "arrow",
 geom_arrow_left <- function(mapping = NULL, data = NULL, stat = "arrow",
                              position = "identity", na.rm = FALSE,
                              show.legend = NA, inherit.aes = TRUE,
-                             edge_length = 0.2, body_length = 0.66,
-                             angle = 180, rotate_at = "head", ...) {
+                             edge_length = 0.2, head_length = 0.2,
+                             angle = 0, rotate_at = "head", ...) {
 
   layer(
     geom = GeomArrow,
@@ -204,7 +209,7 @@ geom_arrow_left <- function(mapping = NULL, data = NULL, stat = "arrow",
     inherit.aes = inherit.aes,
     params = list(
       edge_length = edge_length,
-      body_length = body_length,
+      head_length = head_length,
       angle = angle,
       rotate_at = rotate_at,
       na.rm = na.rm,
@@ -221,8 +226,8 @@ geom_arrow_left <- function(mapping = NULL, data = NULL, stat = "arrow",
 geom_arrow_up <- function(mapping = NULL, data = NULL, stat = "arrow",
                             position = "identity", na.rm = FALSE,
                             show.legend = NA, inherit.aes = TRUE,
-                            edge_length = 0.2, body_length = 0.66,
-                            angle = 90, rotate_at = "head", ...) {
+                            edge_length = 0.2, head_length = 0.2,
+                            angle = 0, rotate_at = "head", ...) {
 
   layer(
     geom = GeomArrow,
@@ -234,7 +239,7 @@ geom_arrow_up <- function(mapping = NULL, data = NULL, stat = "arrow",
     inherit.aes = inherit.aes,
     params = list(
       edge_length = edge_length,
-      body_length = body_length,
+      head_length = head_length,
       angle = angle,
       rotate_at = rotate_at,
       na.rm = na.rm,
@@ -251,8 +256,8 @@ geom_arrow_up <- function(mapping = NULL, data = NULL, stat = "arrow",
 geom_arrow_down <- function(mapping = NULL, data = NULL, stat = "arrow",
                           position = "identity", na.rm = FALSE,
                           show.legend = NA, inherit.aes = TRUE,
-                          edge_length = 0.2, body_length = 0.66,
-                          angle = 270, rotate_at = "head", ...) {
+                          edge_length = 0.2, head_length = 0.2,
+                          angle = 0, rotate_at = "head", ...) {
 
   layer(
     geom = GeomArrow,
@@ -264,7 +269,7 @@ geom_arrow_down <- function(mapping = NULL, data = NULL, stat = "arrow",
     inherit.aes = inherit.aes,
     params = list(
       edge_length = edge_length,
-      body_length = body_length,
+      head_length = head_length,
       angle = angle,
       rotate_at = rotate_at,
       na.rm = na.rm,

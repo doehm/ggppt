@@ -15,6 +15,23 @@ make_callout(
   rotate_at = "center"
 )
 }
+\arguments{
+\item{xmin}{xmin}
+
+\item{xmax}{xmax}
+
+\item{ymin}{ymin}
+
+\item{ymax}{ymax}
+
+\item{pos}{pos}
+
+\item{length}{Length}
+
+\item{angle}{angle}
+
+\item{rotate_at}{rotate at}
+}
 \description{
 make callout
 }

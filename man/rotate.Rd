@@ -6,6 +6,11 @@
 \usage{
 rotate(mat, angle)
 }
+\arguments{
+\item{mat}{Matrix}
+
+\item{angle}{angle}
+}
 \description{
 Rotations
 }

@@ -6,6 +6,19 @@
 \usage{
 make_pentagon(xmin, xmax, ymin, ymax, angle = 0, rotate_at = "center")
 }
+\arguments{
+\item{xmin}{xmin}
+
+\item{xmax}{xmax}
+
+\item{ymin}{ymin}
+
+\item{ymax}{ymax}
+
+\item{angle}{angle}
+
+\item{rotate_at}{rotate at}
+}
 \description{
 make pentagon
 }

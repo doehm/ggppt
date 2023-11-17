@@ -74,20 +74,24 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. [borders()].}
 
+\item{angle}{Angle to rotate each callout box.}
+
+\item{rotate_at}{The point of rotation, either 'head' or 'center'.}
+
+\item{...}{dots}
+
 \item{stat}{The statistical transformation to use on the data for this
 layer, either as a `ggproto` `Geom` subclass or as a string naming the
 stat stripped of the `stat_` prefix (e.g. `"count"` rather than
 `"stat_count"`)}
+
+\item{theta}{Angle of the slant.}
 }
 \value{
 Grob
 }
 \description{
-Creates a 'waffle' style chart with the aesthetic of a brick wall. Usage is
-similar to `geom_col` where you supply counts as the height of the bar. Each
-whole brick represents 1 unit. Two half bricks equal one whole brick. Where
-the count exceeds the number of brick layers, the number of bricks is scaled
-to retain the brick wall aesthetic.
+Creates a parllelogram like in PowerPoint
 }
 \examples{
 library(ggplot2)

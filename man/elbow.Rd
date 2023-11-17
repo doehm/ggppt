@@ -71,6 +71,11 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. [borders()].}
 
+\item{pos}{Position to make the elbow as a percentage of the length of the
+segment.}
+
+\item{...}{Dots}
+
 \item{stat}{The statistical transformation to use on the data for this
 layer, either as a `ggproto` `Geom` subclass or as a string naming the
 stat stripped of the `stat_` prefix (e.g. `"count"` rather than
@@ -80,11 +85,7 @@ stat stripped of the `stat_` prefix (e.g. `"count"` rather than
 Grob
 }
 \description{
-Creates a 'waffle' style chart with the aesthetic of a brick wall. Usage is
-similar to `geom_col` where you supply counts as the height of the bar. Each
-whole brick represents 1 unit. Two half bricks equal one whole brick. Where
-the count exceeds the number of brick layers, the number of bricks is scaled
-to retain the brick wall aesthetic.
+Elow like in PowerPoint
 }
 \examples{
 library(ggplot2)

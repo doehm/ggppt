@@ -10,9 +10,24 @@ make_parallelogram(
   ymin,
   ymax,
   angle = 0,
-  theta = 30,
+  theta = 15,
   rotate_at = "center"
 )
+}
+\arguments{
+\item{xmin}{xmin}
+
+\item{xmax}{xmax}
+
+\item{ymin}{ymin}
+
+\item{ymax}{ymax}
+
+\item{angle}{angle}
+
+\item{theta}{theta}
+
+\item{rotate_at}{rotate at}
 }
 \description{
 make parallelogram
